@@ -9,10 +9,12 @@ from PIL import Image, ImageTk
 
 def encontrarRaices():
     limpiarFrame()
-    tk.Label(frameContenido, text="", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack() #Espacio 
+    for widget in canvas_frame.winfo_children():
+        widget.destroy()
 
-    tk.Label(frameContenido, text="RAÍCES DE UNA ECUACIÓN POLINÓMICA NO LINEAL", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack() #Título
-    tk.Label(frameContenido, text="", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack() #espacio interlineal
+    tk.Label(frameContenido, text="", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack()
+    tk.Label(frameContenido, text="RAÍCES DE UNA ECUACIÓN POLINÓMICA NO LINEAL", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack()
+    tk.Label(frameContenido, text="", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack()
     tk.Label(frameContenido, text="Ingrese la función f(x):", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack()
 
     entry_function = tk.Entry(frameContenido, font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue")
@@ -36,16 +38,14 @@ def encontrarRaices():
                     roots.append(root_approx)
 
             if roots:
-                #root_label.config(text=f"Raíces encontradas: {', '.join(map(lambda r: f'{r:.4f}', roots))}")
                 root_label.config(text=f"Raíces encontradas: {', '.join(map(lambda r: f'{r:.4f}', roots))}", font=("Arial", 12, "bold"))
-
             else:
                 root_label.config(text="No se encontraron raíces en el intervalo.")
 
             funcionPlot(expr, roots)
 
         except Exception as e:
-            root_label.config(text=f"Error: {e}")
+            root_label.config(text=f"Error: Ingrese la ecuación")
 
     def limpiarVentana():
         entry_function.delete(0, tk.END)
@@ -96,92 +96,111 @@ def limpiarFrame():
         widget.destroy()
 
 def mostrarPresentacion():
-    # Limpiar entrada
     limpiarFrame()
+    for widget in canvas_frame.winfo_children():
+        widget.destroy()
 
     root_label.config(text="")
     info_label.config(text="")
 
     tk.Label(frameContenido, text="", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack() 
     tk.Label(frameContenido, text="", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack() 
-    tk.Label(frameContenido, text="BIENVENIDOS A LA APLICACIÓN", font=("Comic Sans MS", 14, "bold"), fg="#00008B", bg="lightblue").pack() #Título
-    tk.Label(frameContenido, text="RAÍCES DE UNA ECUACIÓN POLINÓMICA NO LINEAL", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack() #Título
-    tk.Label(frameContenido, text="", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack() 
+    tk.Label(frameContenido, text="BIENVENIDOS A LA APLICACIÓN", font=("Comic Sans MS", 14, "bold"), fg="#00008B", bg="lightblue").pack()
+    tk.Label(frameContenido, text="RAÍCES DE UNA ECUACIÓN POLINÓMICA NO LINEAL", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack()
     tk.Label(frameContenido, text="", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack()
-    # Cargar la imagen
+    tk.Label(frameContenido, text="", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack()
+
     try:
-            # Leer la imagen mediante PIL.
-            image = Image.open("Graph.png")  
-            image = image.resize((400, 400))  
-            image_tk = ImageTk.PhotoImage(image)
-            image_label = tk.Label(frameContenido, image=image_tk, bg="#FFD700")
-            image_label.image = image_tk  # Mantiene una referencia a la imagen
-            image_label.pack(pady=20)# Mostrar imagen
-            
+        image = Image.open("Graph.png")  
+        image = image.resize((400, 400))  
+        image_tk = ImageTk.PhotoImage(image)
+        image_label = tk.Label(frameContenido, image=image_tk, bg="#FFD700")
+        image_label.image = image_tk
+        image_label.pack(pady=20)
     except Exception as e:
-            print(f"Error al cargar la imagen: {e}")
+        print(f"Error al cargar la imagen: {e}")
 
-    tk.Label(frameContenido, text="", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack() 
-    tk.Label(frameContenido, text="", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack() 
-    tk.Label(frameContenido, text="RootGraph", font=("Comic Sans MS", 20, "bold"), fg="#00008B", bg="lightblue").pack() 
-
+    tk.Label(frameContenido, text="", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack()
+    tk.Label(frameContenido, text="", font=("Arial", 12, "bold"), fg="#00008B", bg="lightblue").pack()
+    tk.Label(frameContenido, text="RootGraph", font=("Comic Sans MS", 20, "bold"), fg="#00008B", bg="lightblue").pack()
 
 def mostrarAyuda():
     limpiarFrame()
+    for widget in canvas_frame.winfo_children():
+        widget.destroy()
+        
+    root_label.config(text="")
+    info_label.config(text="")
+
     tk.Label(frameContenido, text="\n\nINSTRUCCIONES DE USO:\n\n", bg="lightblue", font=("Comic Sans MS", 14,"bold"), fg="#00008B").pack(pady=20)
-    tk.Label(frameContenido, text="\n1. Ingresar la función en el cuadro correspondiente\nEjemplos de Funciones validas\nx**3 - 2*x + 1\nsin(x) - x/2\n"
+    tk.Label(frameContenido, text="\n1. Ingresar la función en el cuadro correspondiente"
+             f"\nEjemplos de Funciones validas\nx**3 - 2*x + 1\nsin(x) - x/2\n"
              f"2. Hacer un click en el boton Encontrar las raíces"
              f"\n3. Visualización gráfica\n4. Hacer un click en el botón Limpiar ventana",bg="lightblue", font=("Comic Sans MS", 14)).pack(pady=20)
 
-
 def mostrarAcerca():
-        limpiarFrame()
-        tk.Label(frameContenido, text="\n\n\n\nCálculo de racíces de ecuciones no lineales.\nRootGraph v1.0", bg="lightblue", font=("Comic Sans MS", 14,"bold"), fg="#00008B").pack(pady=20)
-        # Listado de contenidos para las etiquetas.
-        textos = [
-            "\nDesarrollado por: Leonel Coyla Idme",
-            "Alfredo Mamani Canqui",
-            "Elqui Yeye Pari Condori",
-            "Juan Reynaldo Paredes Quispe",
-            "José Pánfilo Tito Lipa",
-          ]
+    limpiarFrame()
+    for widget in canvas_frame.winfo_children():
+        widget.destroy()
+        
+    root_label.config(text="")
+    info_label.config(text="")
 
-        # Construir las etiquetas utilizando un bucle.
-        for texto in textos:
-            tk.Label(frameContenido, text=texto, bg="lightblue", font=("Comic Sans MS", 14)).pack(pady=4)
+    tk.Label(frameContenido, text="\n\n\n\nCálculo de racíces de ecuciones no lineales."
+             f"\nRootGraph v1.0", bg="lightblue", font=("Comic Sans MS", 14,"bold"), fg="#00008B").pack(pady=20)
+    
+    textos = [
+        "\nDesarrollado por: Leonel Coyla Idme",
+        "Alfredo Mamani Canqui",
+        "Elqui Yeye Pari Condori",
+        "Juan Reynaldo Paredes Quispe",
+        "José Pánfilo Tito Lipa",
+    ]
 
-        label_Acerca_de = tk.Label(frameContenido, text= "\n\nLanzamiento : 11 de abril  2025", font=("Comic Sans MS", 14),fg="#003366",bg="lightblue")
-        label_Acerca_de.pack(pady=(1,10))
-        label_Acerca_de = tk.Label(frameContenido, text= "Contacto: lcoyla@unap.edu.pe", font=("Comic Sans MSl", 14),fg="#003366",bg="lightblue")
-        label_Acerca_de.pack(pady=(1,10))
+    for texto in textos:
+        tk.Label(frameContenido, text=texto, bg="lightblue", font=("Comic Sans MS", 14)).pack(pady=4)
 
-# Configuración de la interfaz gráfica
-root = tk.Tk()
-root.title("Buscador de Raíces")
-root.geometry("900x900")
-root.config(bg="lightblue")  # Color de fondo para el fondo principal
+    label_Acerca_de = tk.Label(frameContenido, text= "\n\nLanzamiento : 11 de abril  2025", font=("Comic Sans MS", 14),fg="#003366",bg="lightblue")
+    label_Acerca_de.pack(pady=(1,10))
+    label_Acerca_de = tk.Label(frameContenido, text= "Contacto: lcoyla@unap.edu.pe", font=("Comic Sans MSl", 14),fg="#003366",bg="lightblue")
+    label_Acerca_de.pack(pady=(1,10))
 
-menu_bar = tk.Menu(root)
-root.config(menu=menu_bar)
 
-menu_bar.add_command(label="Presentación", command=mostrarPresentacion)
-menu_bar.add_command(label="Gráfico", command=encontrarRaices)
-menu_bar.add_command(label="Ayuda", command=mostrarAyuda)
-menu_bar.add_command(label="Acerca de", command=mostrarAcerca)
+def crearInterfaz():
+    global frameContenido, root_label, info_label, canvas_frame
 
-main_frame = tk.Frame(root, bg="lightblue")  # Fondo de color similar al de la raíz
-main_frame.pack(pady=10)
+    root = tk.Tk()
+    root.title("Buscador de Raíces")
+    root.geometry("900x900")
+    root.config(bg="lightblue")
 
-frameContenido = tk.Frame(main_frame, bg="lightblue")  # Fondo de color similar al de la raíz
-frameContenido.pack()
+    menu_bar = tk.Menu(root)
+    root.config(menu=menu_bar)
 
-root_label = tk.Label(main_frame, text="", bg="lightblue")
-root_label.pack()
+    menu_bar.add_command(label="Presentación", command=mostrarPresentacion)
+    menu_bar.add_command(label="Gráfico", command=encontrarRaices)
+    menu_bar.add_command(label="Ayuda", command=mostrarAyuda)
+    menu_bar.add_command(label="Acerca de", command=mostrarAcerca)
 
-info_label = tk.Label(main_frame, text="", fg="blue", bg="lightblue")
-info_label.pack()
+    main_frame = tk.Frame(root, bg="lightblue")
+    main_frame.pack(pady=10)
 
-canvas_frame = tk.Frame(main_frame, bg="lightblue")  # Fondo de color similar al de la raíz
-canvas_frame.pack()
+    frameContenido = tk.Frame(main_frame, bg="lightblue")
+    frameContenido.pack()
 
-root.mainloop()
+    root_label = tk.Label(main_frame, text="", bg="lightblue")
+    root_label.pack()
+
+    info_label = tk.Label(main_frame, text="", fg="blue", bg="lightblue")
+    info_label.pack()
+
+    canvas_frame = tk.Frame(main_frame, bg="lightblue")
+    canvas_frame.pack()
+
+    root.mainloop()
+
+def main():
+    crearInterfaz()
+
+if __name__ == "__main__":
+    main()
